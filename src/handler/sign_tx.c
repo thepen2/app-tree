@@ -32,6 +32,12 @@
 #include "../transaction/types.h"
 #include "../transaction/deserialize.h"
 
+// PEN: ADDED MORE INCLUDES, MAY NOT ALL BE NECESSARY
+//#include "../ui/menu.h"
+//#include "../constants.h"
+//#include "../io.h"
+//#include "../address.h"
+
 int handler_sign_tx(buffer_t *cdata, uint8_t chunk, bool more) {
     if (chunk == 0) {  // first APDU, parse BIP32 path
         explicit_bzero(&G_context, sizeof(G_context));
@@ -76,26 +82,55 @@ int handler_sign_tx(buffer_t *cdata, uint8_t chunk, bool more) {
                             .size = G_context.tx_info.raw_tx_len,
                             .offset = 0};
 
-            parser_status_e status = transaction_deserialize(&buf, &G_context.tx_info.transaction);
+// PEN: FORK TRANSACTION TYPES
+	    parser_status_e status = PARSING_OK; 
+            char txTypeCheck = G_context.tx_info.raw_tx[10];
+            char numRecps = G_context.tx_info.raw_tx[86];
+            if (txTypeCheck == 0x3a) { // STARTUP
+                status = transaction_deserialize_1(&buf, \
+                                                &G_context.tx_info.transaction);
+            }
+            else {  // STANDARD TRANSACTION
+                status = transaction_deserialize_2(&buf, \
+						&G_context.tx_info.transaction);
+            }
+
             PRINTF("Parsing status: %d.\n", status);
+
             if (status != PARSING_OK) {
-                return io_send_sw(SW_TX_PARSING_FAIL);
+                return io_send_sw(status);  // PEN: MORE DESCRIPTIVE OF ERROR
             }
 
             G_context.state = STATE_PARSED;
 
-            cx_sha3_t keccak256;
-            cx_keccak_init(&keccak256, 256);
-            cx_hash((cx_hash_t *) &keccak256,
-                    CX_LAST,
-                    G_context.tx_info.raw_tx,
+// THIS IS WRONG FOR OUR PURPOSES, JUST WANT A SIMPLE SHA256
+//            cx_sha3_t keccak256;
+//            cx_keccak_init(&keccak256, 256);
+ 
+//            cx_hash((cx_hash_t *) &keccak256,
+//                    CX_LAST,
+//                    G_context.tx_info.raw_tx,
+//                    G_context.tx_info.raw_tx_len,
+//                    G_context.tx_info.m_hash,
+//                    sizeof(G_context.tx_info.m_hash));
+
+            cx_hash_sha256(G_context.tx_info.raw_tx,
                     G_context.tx_info.raw_tx_len,
                     G_context.tx_info.m_hash,
                     sizeof(G_context.tx_info.m_hash));
 
             PRINTF("Hash: %.*H\n", sizeof(G_context.tx_info.m_hash), G_context.tx_info.m_hash);
 
-            return ui_display_transaction();
+// PEN: FORK TRANSACTION TYPES
+            if (txTypeCheck == 0x3a) { // GENERAL ACTION APPROVAL
+                return ui_display_transaction_1();
+            } 
+            else if (numRecps == 0x01) {
+                return ui_display_transaction_2_1();
+            }
+            else if (numRecps == 0x02) {
+                return ui_display_transaction_2_2();
+            }
         }
     }
 

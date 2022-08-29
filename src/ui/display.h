@@ -22,3 +22,10 @@ int ui_display_address(void);
  *
  */
 int ui_display_transaction(void);
+
+
+// PEN: CUSTOM DISPLAY FUNCTIONS
+int ui_display_transaction_1(void);
+int ui_display_transaction_2_1(void);
+int ui_display_transaction_2_2(void);
+

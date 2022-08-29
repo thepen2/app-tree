@@ -50,3 +50,9 @@ int base58_decode(const char *in, size_t in_len, uint8_t *out, size_t out_len);
  *
  */
 int base58_encode(const uint8_t *in, size_t in_len, char *out, size_t out_len);
+
+// PEN: EXTRA TESTS
+bool isBase58(unsigned char *inChars, int startPos, int sizeIn);
+bool isDecimal(unsigned char *inChars, int startPos, int sizeIn);
+bool isHexadecimal(unsigned char *inChars, int startPos, int sizeIn);
+bool isTextString(unsigned char *inChars, int startPos, int sizeIn);

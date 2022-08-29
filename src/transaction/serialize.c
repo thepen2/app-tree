@@ -56,3 +56,4 @@ int transaction_serialize(const transaction_t *tx, uint8_t *out, size_t out_len)
 
     return (int) offset;
 }
+
