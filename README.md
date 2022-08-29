@@ -1,8 +1,6 @@
-# Tree_CLI<br><br>
+# Tree Nano App<br><br>
 
 <b>Tree cryptocurrency application interface, registered as coin type 644 with https://github.com/satoshilabs/slips/blob/master/slip-0044.md:</b><br><br>
-
-For our new Ledger Nano app, the /bin-nanos directory contains Nano S compiles, the /bin-nanosp directory contains Nano S Plus compiles, and the /bin-nanox directory contains Nano X compiles.<br><br>
 
 In the /bin-tree_cli directory is our tree_cli_plus.exe Win32 command line interface (CLI) program to test the new functions.<br><br>
 
@@ -47,6 +45,6 @@ ALSO ADDED ICONS:<br>
 /glyphs/boilerplate_logo.gif (overwritten)<br>
 Makefile (uploaded here also) modified to reflect icon name changes, app name, version and path (m/44'/644').<br><br>
 
-Copy all the files in this repo except the bin directories to the existing https://github.com/LedgerHQ/app-boilerplate repo to duplicate our builds.<br><br>
+In this repository, all the changed files have been merged into the original https://github.com/LedgerHQ/app-boilerplate.<br><br>
 
 
