@@ -12,7 +12,7 @@ project(unit_tests
 
 
 # guard against bad build-type strings
-if (NOT CMAKE_BUILD_TYPE)
+if(NOT CMAKE_BUILD_TYPE)
   set(CMAKE_BUILD_TYPE "Debug")
 endif()
 
@@ -37,6 +37,14 @@ add_compile_definitions(TEST)
 
 include_directories(../src)
 
+# PEN: ADDED
+add_executable(test_tx_deserialize_1 test_tx_deserialize_1.c)
+add_executable(test_tx_deserialize_2_1 test_tx_deserialize_2_1.c)
+add_executable(test_tx_deserialize_2_2 test_tx_deserialize_2_2.c)
+add_executable(test_lowercase test_lowercase.c)
+add_executable(test_charset test_charset.c)
+add_executable(test_dotted_decimal test_dotted_decimal.c)
+
 add_executable(test_base58 test_base58.c)
 add_executable(test_bip32 test_bip32.c)
 add_executable(test_buffer test_buffer.c)
@@ -45,6 +53,9 @@ add_executable(test_write test_write.c)
 add_executable(test_apdu_parser test_apdu_parser.c)
 add_executable(test_tx_parser test_tx_parser.c)
 add_executable(test_tx_utils test_tx_utils.c)
+
+# PEN: ADDED
+add_library(extra2 SHARED ../src/ui/extra2.c)
 
 add_library(base58 SHARED ../src/common/base58.c)
 add_library(bip32 SHARED ../src/common/bip32.c)
@@ -58,6 +69,47 @@ add_library(transaction_deserialize ../src/transaction/deserialize.c)
 add_library(transaction_serialize ../src/transaction/serialize.c)
 add_library(transaction_utils ../src/transaction/utils.c)
 
+# PEN: ADDED
+target_link_libraries(test_lowercase PUBLIC cmocka gcov extra2)
+target_link_libraries(test_dotted_decimal PUBLIC cmocka gcov base58 extra2)
+target_link_libraries(test_charset PUBLIC cmocka gcov base58)
+target_link_libraries(test_tx_deserialize_1 PUBLIC 
+                      cmocka
+                      gcov
+                      transaction_deserialize
+                      transaction_serialize
+                      buffer
+                      bip32
+                      base58
+                      write
+                      read
+                      varint
+                      transaction_utils)
+target_link_libraries(test_tx_deserialize_2_1 PUBLIC 
+                      cmocka
+                      gcov
+                      transaction_deserialize
+                      transaction_serialize
+                      buffer
+                      bip32
+                      base58
+                      write
+                      read
+                      varint
+                      transaction_utils)
+target_link_libraries(test_tx_deserialize_2_2 PUBLIC 
+                      cmocka
+                      gcov
+                      transaction_deserialize
+                      transaction_serialize
+                      buffer
+                      bip32
+                      base58
+                      write
+                      read
+                      varint
+                      transaction_utils)
+
 target_link_libraries(test_base58 PUBLIC cmocka gcov base58)
 target_link_libraries(test_bip32 PUBLIC cmocka gcov bip32 read)
 target_link_libraries(test_buffer PUBLIC cmocka gcov buffer bip32 varint write read)
@@ -69,6 +121,7 @@ target_link_libraries(test_tx_parser PUBLIC
                       transaction_serialize
                       buffer
                       bip32
+                      base58
                       cmocka
                       gcov
                       write
@@ -79,6 +132,14 @@ target_link_libraries(test_tx_utils PUBLIC
                       cmocka
                       gcov
                       transaction_utils)
+
+# PEN: ADDED
+add_test(test_tx_deserialize_1 test_tx_deserialize_1)
+add_test(test_tx_deserialize_2_1 test_tx_deserialize_2_1)
+add_test(test_tx_deserialize_2_2 test_tx_deserialize_2_2)
+add_test(test_lowercase test_lowercase)
+add_test(test_charset test_charset)
+add_test(test_dotted_decimal test_dotted_decimal)
 
 add_test(test_base58 test_base58)
 add_test(test_bip32 test_bip32)

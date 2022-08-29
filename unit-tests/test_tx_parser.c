@@ -11,6 +11,8 @@
 #include "transaction/deserialize.h"
 #include "transaction/types.h"
 
+#include "common/base58.h"
+
 static void test_tx_serialization(void **state) {
     (void) state;
 
@@ -74,7 +76,9 @@ static void test_tx_serialization(void **state) {
 }
 
 int main() {
-    const struct CMUnitTest tests[] = {cmocka_unit_test(test_tx_serialization)};
+    const struct CMUnitTest tests[] = {
+        cmocka_unit_test(test_tx_serialization)
+    };
 
     return cmocka_run_group_tests(tests, NULL, NULL);
 }
