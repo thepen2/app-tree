@@ -47,6 +47,5 @@ ALSO ADDED ICONS:<br>
 /glyphs/boilerplate_logo.gif (overwritten)<br>
 Makefile (uploaded here also) modified to reflect icon name changes, app name, version and path (m/44'/644').<br><br>
 
-In this repository, all the changed files have been merged into the original https://github.com/LedgerHQ/app-boilerplate.<br><br>
 
 
