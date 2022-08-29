@@ -2,6 +2,8 @@
 
 <b>Tree cryptocurrency application interface, registered as coin type 644 with https://github.com/satoshilabs/slips/blob/master/slip-0044.md:</b><br><br>
 
+Per Ledger Nano documentation requirements for app submission, there is a new /docs/apdu.md file.<br><br>
+
 In the /bin-tree_cli directory is our tree_cli_plus.exe Win32 command line interface (CLI) program to test the new functions.<br><br>
 
 Usage: (for tree_cli_plus.exe)<br>
