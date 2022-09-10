@@ -68,7 +68,7 @@ void ui_menu_main() {
     ux_flow_init(0, ux_menu_main_flow, NULL);
 }
 
-UX_STEP_NOCB(ux_menu_info_step, bn, {"Tree app", "(c) 2022 The Pen"});
+UX_STEP_NOCB(ux_menu_info_step, bn, {"Tree App", "(c) 2022 The Pen"});
 UX_STEP_CB(ux_menu_back_step, pb, ui_menu_main(), {&C_icon_back, "Back"});
 
 // FLOW for the about submenu:
