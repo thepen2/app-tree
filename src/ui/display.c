@@ -220,14 +220,14 @@ UX_STEP_CB(ux_display_authorize_startup_step,
            {
                &C_icon_validate_14,
                "Authorize",
-               "start up",
+               "startup",
            });
 
 // FLOW to display transaction 1 (authorize startup) information:
 // #1 screen : timestamp                // ONLY FOR DEBUG
 // #2 screen : temp public key          // ONLY FOR DEBUG
 // #3 screen : startup chain address
-// #4 screen : approve button for authorize start up
+// #4 screen : approve button for authorize startup
 // #5 screen : reject button
 UX_FLOW(ux_display_transaction_1_flow,
 //        &ux_display_timestamp_step,
@@ -325,7 +325,7 @@ UX_STEP_CB(ux_display_approve_transaction_step,
 // #1 screen : sender account    
 // #2 screen : recipient
 // #3 screen : recipient amount
-// #4 screen : approve button for authorize start up
+// #4 screen : approve button for authorize transaction
 // #5 screen : reject button
 UX_FLOW(ux_display_transaction_2_flow_1,
         &ux_display_sender_address_step,
@@ -391,7 +391,7 @@ UX_STEP_NOCB(ux_display_recipient2_amount_step, bn, {"Amount 2: ", g_recp2_amoun
 // #3 screen : recipient 1 amount
 // #4 screen : recipient 2 (OPTIONAL)
 // #5 screen : recipient 2 amount (OPTIONAL)
-// #6 screen : approve button for authorize start up
+// #6 screen : approve button for authorize transaction
 // #7 screen : reject button
 UX_FLOW(ux_display_transaction_2_flow_2,
         &ux_display_sender_address_step,
