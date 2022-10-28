@@ -114,7 +114,7 @@ parser_status_e transaction_deserialize_1(buffer_t *buf, transaction_t *tx) {
 
     buffer_seek_cur(buf, 1); // SKIP COLON SPACER, SAME 
 
-    if (!isHexadecimal((uint8_t *) (buf->ptr + buf->offset), 2, 8)) {
+    if (!isHexadecimal((uint8_t *) (buf->ptr + buf->offset), 0, 8)) {
         return NOT_HEX_START_CHAIN;
     }
 
