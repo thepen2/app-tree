@@ -54,7 +54,7 @@ static char g_recp1_address[44];
 char g_recp1_amount[18];
 static char g_recp2_address[44];
 char g_recp2_amount[18];
-static char g_text[33] = { 0 };
+static char g_text[67] = { 0 };
 
 // Step with icon and text
 UX_STEP_NOCB(ux_display_confirm_addr_step, pn, {&C_icon_eye, "Confirm address"});
@@ -220,14 +220,14 @@ UX_STEP_CB(ux_display_authorize_startup_step,
            {
                &C_icon_validate_14,
                "Authorize",
-               "startup",
+               "start up",
            });
 
 // FLOW to display transaction 1 (authorize startup) information:
 // #1 screen : timestamp                // ONLY FOR DEBUG
 // #2 screen : temp public key          // ONLY FOR DEBUG
 // #3 screen : startup chain address
-// #4 screen : approve button for authorize startup
+// #4 screen : approve button for authorize start up
 // #5 screen : reject button
 UX_FLOW(ux_display_transaction_1_flow,
 //        &ux_display_timestamp_step,
@@ -258,9 +258,9 @@ int ui_display_transaction_1() {
         return io_send_sw(SW_BAD_STATE);
     }
 
-    if (G_context.tx_info.transaction.tempPubK[0] == 0x01) {
-        memmove((char *) g_text, G_context.tx_info.transaction.tempPubK + 1, 32);
-        g_text[32] = 0x00;  // NULL TERMINATE, SUPERFLOUS, WHOLE ARRAY ZEROED TO INIT
+    if (G_context.tx_info.transaction.tempPubK[1] == 0x31) {
+        memmove((char *) g_text, G_context.tx_info.transaction.tempPubK + 2, 64);
+        g_text[64] = 0x00;  // NULL TERMINATE, SUPERFLOUS, WHOLE ARRAY ZEROED TO INIT
     }
     else {
         memmove((char *) g_timestamp, G_context.tx_info.transaction.timestamp, 10);
@@ -278,12 +278,17 @@ int ui_display_transaction_1() {
          return io_send_sw(SW_ADDRESS_MISMATCH);
     }
 
-    snprintf(g_tempPubK, sizeof(g_tempPubK), "0x%.*H", 33, G_context.tx_info.transaction.tempPubK);
+// CHANGED TO UNPACKED HEX IN ASCII
+//    snprintf(g_tempPubK, sizeof(g_tempPubK), "0x%.*H", 33, G_context.tx_info.transaction.tempPubK);
+
+    g_tempPubK[0] = 0x30;
+    g_tempPubK[1] = 0x78;  // "x"
+    memmove( (char *) g_tempPubK + 2, G_context.tx_info.transaction.tempPubK, 66);
     g_tempPubK[68] = 0x00;   // NULL TERMINATE. 2 EXTRA BYTES FOR THE "0x"
 
     g_validate_callback = &ui_action_validate_transaction;
 
-    if (G_context.tx_info.transaction.tempPubK[0]== 0x01) {
+    if (G_context.tx_info.transaction.tempPubK[1]== 0x31) {
         ux_flow_init(0, ux_display_transaction_general_flow, NULL);
     }
     else {
@@ -325,7 +330,7 @@ UX_STEP_CB(ux_display_approve_transaction_step,
 // #1 screen : sender account    
 // #2 screen : recipient
 // #3 screen : recipient amount
-// #4 screen : approve button for authorize transaction
+// #4 screen : approve button for authorize start up
 // #5 screen : reject button
 UX_FLOW(ux_display_transaction_2_flow_1,
         &ux_display_sender_address_step,
@@ -391,7 +396,7 @@ UX_STEP_NOCB(ux_display_recipient2_amount_step, bn, {"Amount 2: ", g_recp2_amoun
 // #3 screen : recipient 1 amount
 // #4 screen : recipient 2 (OPTIONAL)
 // #5 screen : recipient 2 amount (OPTIONAL)
-// #6 screen : approve button for authorize transaction
+// #6 screen : approve button for authorize start up
 // #7 screen : reject button
 UX_FLOW(ux_display_transaction_2_flow_2,
         &ux_display_sender_address_step,
