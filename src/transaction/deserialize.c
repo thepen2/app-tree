@@ -68,8 +68,8 @@ parser_status_e transaction_deserialize(buffer_t *buf, transaction_t *tx) {
 
 // CUSTOM PARAMETER TYPES (STARTUP)
 //          -> timestamp  (10 bytes decimal ascii)
-//          -> spacer     (1 byte hex = 0x3a)
-//          -> tempPubK   (33 bytes hex, but read in as chars)
+//          -> spacer     (1 byte ascuu = 0x3a colon)
+//          -> tempPubK   (66 bytes ascii, from 33 bytes hex)
 //          -> startup    (43 bytes ascii, startup chain address)
 
 parser_status_e transaction_deserialize_1(buffer_t *buf, transaction_t *tx) {
@@ -96,19 +96,19 @@ parser_status_e transaction_deserialize_1(buffer_t *buf, transaction_t *tx) {
     // tempPubK (33 bytes hex, but read in as chars)
     tx->tempPubK = (uint8_t *) (buf->ptr + buf->offset);
 
-    if (tx->tempPubK[0] == 0x01) {
-        if (!isTextString((uint8_t *) (buf->ptr + buf->offset), 1, 32)) {
+    if (tx->tempPubK[1] == 0x31) {
+        if (!isTextString((uint8_t *) (buf->ptr + buf->offset), 2, 64)) {
             return NOT_TEXT_1;
         }
     }
 
-    if (!buffer_seek_cur(buf, 33)) {
+    if (!buffer_seek_cur(buf, 66)) {
         return TEMP_PUBK_PARSING_ERROR;
     }
 
-    if ((tx->tempPubK[0] != 0x02) &&   // COMPRESSED PUBLIC KEY
-        (tx->tempPubK[0] != 0x03) &&   // COMPRESSED PUBLIC KEY
-        (tx->tempPubK[0] != 0x01) ) {  // GENERIC APPROVAL TEXT
+    if ((tx->tempPubK[1] != 0x32) &&   // COMPRESSED PUBLIC KEY
+        (tx->tempPubK[1] != 0x33) &&   // COMPRESSED PUBLIC KEY
+        (tx->tempPubK[1] != 0x31) ) {  // GENERIC APPROVAL TEXT
         return TEMP_PUBK_ERROR;
     }
 
