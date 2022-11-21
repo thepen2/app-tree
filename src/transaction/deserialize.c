@@ -265,7 +265,7 @@ parser_status_e transaction_deserialize_2(buffer_t *buf, transaction_t *tx) {
         }
 
     // recp2 (43 bytes ascii, sender chain address)
-        tx->recp2 = (uint8_t *) (buf->ptr + buf->offset);
+        tx->recp3 = (uint8_t *) (buf->ptr + buf->offset);
         if (!buffer_seek_cur(buf, 43)) {
             return RECP_3_PARSING_ERROR;
         }
@@ -276,7 +276,7 @@ parser_status_e transaction_deserialize_2(buffer_t *buf, transaction_t *tx) {
         }
 
     // amt2 (10 bytes decimal ascii)
-        tx->amt2 = (uint8_t *) (buf->ptr + buf->offset);
+        tx->amt3 = (uint8_t *) (buf->ptr + buf->offset);
         if (!buffer_seek_cur(buf, 16)) {
             return AMT_3_PARSING_ERROR;
         }
