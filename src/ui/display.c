@@ -54,6 +54,8 @@ static char g_recp1_address[44];
 char g_recp1_amount[18];
 static char g_recp2_address[44];
 char g_recp2_amount[18];
+static char g_recp3_address[44];
+char g_recp3_amount[18];
 static char g_text[67] = { 0 };
 
 // Step with icon and text
@@ -435,6 +437,77 @@ int ui_display_transaction_2_2() {
     g_validate_callback = &ui_action_validate_transaction;
 
     ux_flow_init(0, ux_display_transaction_2_flow_2, NULL);
+
+    return 0;
+
+}
+
+
+///////////////  OPTIONAL 3RD RECIPIENT
+
+// Step with recipient2 chain address (OPTIONAL)
+UX_STEP_NOCB(ux_display_recipient3_address_step,
+             bnnn_paging,
+             {
+                 "To recp 3 address",
+                 g_recp3_address,
+             });
+
+// Step with recipient 2 amount (OPTIONAL)
+UX_STEP_NOCB(ux_display_recipient3_amount_step, bn, {"Amount 3: ", g_recp3_amount});
+
+// FLOW to display transaction 2_3 (standard transaction, 3 recps) information:
+// #1 screen : sender account    
+// #2 screen : recipient 1 
+// #3 screen : recipient 1 amount
+// #4 screen : recipient 2 (OPTIONAL)
+// #5 screen : recipient 2 amount (OPTIONAL)
+// #6 screen : recipient 3 (OPTIONAL)
+// #7 screen : recipient 3 amount (OPTIONAL)
+// #8 screen : approve button for authorize start up
+// #9 screen : reject button
+UX_FLOW(ux_display_transaction_2_flow_3,
+        &ux_display_sender_address_step,
+        &ux_display_recipient1_address_step,
+        &ux_display_recipient1_amount_step,
+        &ux_display_recipient2_address_step,
+        &ux_display_recipient2_amount_step,
+        &ux_display_recipient3_address_step,
+        &ux_display_recipient3_amount_step,
+        &ux_display_approve_transaction_step,
+        &ux_display_reject_step);
+
+int ui_display_transaction_2_3() {
+
+    if (G_context.req_type != CONFIRM_TRANSACTION || G_context.state != STATE_PARSED) {
+        G_context.state = STATE_NONE;
+        return io_send_sw(SW_BAD_STATE);
+    }
+    
+    memmove((char *) g_sender_address, G_context.tx_info.transaction.sender + 9, 34);
+    g_sender_address[34] = 0x00;    // NULL TERMINATE
+
+    int matchResult = matchAddress( (char * ) g_sender_address);
+
+    if (matchResult == 0) {
+         return io_send_sw(SW_ADDRESS_MISMATCH);
+    }
+
+    memmove((char *) g_recp1_address, G_context.tx_info.transaction.recp1 + 9, 34);
+    g_recp1_address[34] = 0x00;    // NULL TERMINATE
+    memmove((char *) g_recp2_address, G_context.tx_info.transaction.recp2 + 9, 34);
+    g_recp2_address[34] = 0x00;    // NULL TERMINATE
+    memmove((char *) g_recp3_address, G_context.tx_info.transaction.recp3 + 9, 34);
+    g_recp3_address[34] = 0x00;    // NULL TERMINATE
+
+// CONVERT TO DOTTED DECIMAL
+    dotDecimal(G_context.tx_info.transaction.amt1, g_recp1_amount);
+    dotDecimal(G_context.tx_info.transaction.amt2, g_recp2_amount);
+    dotDecimal(G_context.tx_info.transaction.amt3, g_recp3_amount);
+ 
+    g_validate_callback = &ui_action_validate_transaction;
+
+    ux_flow_init(0, ux_display_transaction_2_flow_3, NULL);
 
     return 0;
 
