@@ -36,20 +36,29 @@ typedef enum {
     SENDER_PARSING_ERROR = -21,
     TX_ID_PARSING_ERROR = -22,
     NUM_RECPS_PARSING_ERROR = -23,
+
     NOT_HEX_RECP_1_CHAIN = -34,
     NOT_BASE58_RECP_1 = -25,
     RECP_1_PARSING_ERROR = -26,
     NOT_DECIMAL_AMT_1 = -27,
     AMT_1_PARSING_ERROR = -28,
+
     NOT_HEX_RECP_2_CHAIN = -29,
     NOT_BASE58_RECP_2 = -30,
     RECP_2_PARSING_ERROR = -31,
     NOT_DECIMAL_AMT_2 = -32,
     AMT_2_PARSING_ERROR = -33,
-    SENDER_PUBK_PARSING_ERROR = -34,
-    SENDER_PUBK_ERROR = -35,
-    NOT_TEXT_1 = -36,
- 
+
+    NOT_HEX_RECP_3_CHAIN = -34,
+    NOT_BASE58_RECP_3 = -35,
+    RECP_3_PARSING_ERROR = -36,
+    NOT_DECIMAL_AMT_3 = -37,
+    AMT_3_PARSING_ERROR = -38,
+
+    SENDER_PUBK_PARSING_ERROR = -39,
+    SENDER_PUBK_ERROR = -40,
+    NOT_TEXT_1 = -41,
+
 } parser_status_e;
 
 typedef struct {
@@ -62,7 +71,7 @@ typedef struct {
 // PEN: EXTRA TRANSACTION PARAMETERS 
     uint8_t *timestamp;   /// pointer to timestamp of transaction (10 bytes decimal acsii)
     uint8_t txType;       /// transaction type (1 byte hex), startup if txType == ":" (0x3a)
-    uint8_t *tempPubK;    /// pointer to compressed temp public key (33 butes hex)
+    uint8_t *tempPubK;    /// pointer to compressed temp public key (66 butes ascii)
     uint8_t *startup;     /// pointer to colon + startup chain address (43 bytes ascii)
     uint8_t *sender;      /// pointer to sender chain address (43 bytes ascii)
     uint8_t *txID;        /// transaction ID (32 bytes hex)
@@ -71,6 +80,8 @@ typedef struct {
     uint8_t *amt1;        /// pointer to amount for recipient 1 (10 chars decimal ascii)
     uint8_t *recp2;       /// pointer to recipient 2 chain address  (43 bytes ascii)
     uint8_t *amt2;        /// pointer to amount for recipient 1 (10 chars decimal ascii)
+    uint8_t *recp3;       /// pointer to recipient 2 chain address  (43 bytes ascii)
+    uint8_t *amt3;        /// pointer to amount for recipient 1 (10 chars decimal ascii)
     uint8_t *sendPubK;    /// pointer to compressed public key of sender (33 bytes hex)
 
 } transaction_t;

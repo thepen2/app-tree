@@ -57,7 +57,7 @@ parser_status_e transaction_deserialize(buffer_t *buf, transaction_t *tx) {
     if (!transaction_utils_check_encoding(tx->memo, tx->memo_len)) {
         return MEMO_ENCODING_ERROR;
     }
-    
+
     return (buf->offset == buf->size) ? PARSING_OK : WRONG_LENGTH_ERROR;
 }
 
@@ -112,7 +112,7 @@ parser_status_e transaction_deserialize_1(buffer_t *buf, transaction_t *tx) {
         return TEMP_PUBK_ERROR;
     }
 
-    buffer_seek_cur(buf, 1); // SKIP COLON SPACER, SAME 
+    buffer_seek_cur(buf, 1); // SKIP COLON SPACER, SAME
 
     if (!isHexadecimal((uint8_t *) (buf->ptr + buf->offset), 0, 8)) {
         return NOT_HEX_START_CHAIN;
@@ -221,7 +221,7 @@ parser_status_e transaction_deserialize_2(buffer_t *buf, transaction_t *tx) {
 
 // OPTIONAL SECOND RECIPIENT
 
-    if (tx->numRecps > 1) {   
+    if (tx->numRecps > 1) {
 
         if (!isHexadecimal((uint8_t *) (buf->ptr + buf->offset), 0, 8)) {
             return NOT_HEX_RECP_2_CHAIN;
@@ -248,7 +248,39 @@ parser_status_e transaction_deserialize_2(buffer_t *buf, transaction_t *tx) {
         if (!buffer_seek_cur(buf, 16)) {
             return AMT_2_PARSING_ERROR;
         }
-  
+
+    }
+
+// OPTIONAL THIRD RECIPIENT
+
+    if (tx->numRecps > 2) {
+
+        if (!isHexadecimal((uint8_t *) (buf->ptr + buf->offset), 0, 8)) {
+            return NOT_HEX_RECP_3_CHAIN;
+        }
+
+    // TEST ADDRESS PART OF RECIPIENT 2 CHAIN ADDRESS FOR BASE58
+        if (!isBase58((uint8_t *) (buf->ptr + buf->offset), 9, 34)) {
+            return NOT_BASE58_RECP_3;
+        }
+
+    // recp2 (43 bytes ascii, sender chain address)
+        tx->recp2 = (uint8_t *) (buf->ptr + buf->offset);
+        if (!buffer_seek_cur(buf, 43)) {
+            return RECP_3_PARSING_ERROR;
+        }
+
+    // TEST AMOUNT FOR RECIPIENT 2 FOR DECIMAL
+        if (!isDecimal((uint8_t *) (buf->ptr + buf->offset), 0, 16)) {
+            return NOT_DECIMAL_AMT_3;
+        }
+
+    // amt2 (10 bytes decimal ascii)
+        tx->amt2 = (uint8_t *) (buf->ptr + buf->offset);
+        if (!buffer_seek_cur(buf, 16)) {
+            return AMT_3_PARSING_ERROR;
+        }
+
     }
 
     // sendPubK (33 bytes hex, but read in as chars)
