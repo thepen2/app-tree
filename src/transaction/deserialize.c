@@ -143,6 +143,8 @@ parser_status_e transaction_deserialize_1(buffer_t *buf, transaction_t *tx) {
 //          -> amt1       (16 bytes ascii, recipient 1 amount)
 //          -> recp2      (43 bytes ascii, recipient 2 chain address) OPTIONAL
 //          -> amt2       (16 bytes ascii, recipient 2 amount) OPTIONAL
+//          -> recp3      (43 bytes ascii, recipient 3 chain address) OPTIONAL
+//          -> amt3       (16 bytes ascii, recipient 3 amount) OPTIONAL
 //          -> senderPubK (33 bytes hex, sender compressed public key)
 
 parser_status_e transaction_deserialize_2(buffer_t *buf, transaction_t *tx) {
