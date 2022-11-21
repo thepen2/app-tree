@@ -36,7 +36,7 @@ CHANGES TO THE FOLLOWING FILES:<br>
 /src/ui/menu.h<br>
 ALL CHANGES CAN BE FOUND BY SEARCHING THE ABOVE FOR "PEN:"<br><br>
 
-6 new tests in the /unit-tests directory, test_tx_deserialize_1.c, test_tx_deserialize_2_1.c, text_tx_deserialize_2_2.c, test_lowercase.c, test_charsets.c and test_dotted_decimal.c, and corresponding entries added to the /unit-tests/CMakeLists.txt file.  Run tests with:<br><br>
+7 new tests in the /unit-tests directory, test_tx_deserialize_1.c, test_tx_deserialize_2_1.c, text_tx_deserialize_2_2.c, text_tx_deserialize_2_3.c, test_lowercase.c, test_charsets.c and test_dotted_decimal.c, and corresponding entries added to the /unit-tests/CMakeLists.txt file.  Run tests with:<br><br>
 
 cmake -Bbuild -H. && make -C build<br>
 CTEST_OUTPUT_ON_FAILURE=1 make -C build test<br><br>
