@@ -62,7 +62,7 @@ The Tree client application also uses a signing request to authorize other opera
 
 ### Tree cryptocurrency transaction signing
 
-Otherwise signing requests are used to sign transaction data.  In this case, byte [10] of the CDATA is the transaction type, a hexadecimal character other than 0x3a.  There can be either 1 or 2 recipients of a Tree cryptocurrency transaction, flagged by byte [86] of the CData.  The recipient 2 blockchain address and amount fields are only present if the number of recipients is 2.  The full format of a cryptocurrency transaction signing request is as follows:
+Otherwise signing requests are used to sign transaction data.  In this case, byte [10] of the CDATA is the transaction type, a hexadecimal character other than 0x3a.  There can be either 1, 2 or 3 recipients of a Tree cryptocurrency transaction, flagged by byte [86] of the CData.  The recipient 2 blockchain address and amount fields are only present if the number of recipients is 2.  The full format of a cryptocurrency transaction signing request is as follows:
 
 | Length      | Description     |
 |-------------|-----------------|
@@ -75,6 +75,8 @@ Otherwise signing requests are used to sign transaction data.  In this case, byt
 | 16          | Amount 1 (decimal ASCII)
 | 43          | Recipient 2 blockchain address (43 chars mixed format) OPTIONAL
 | 16          | Amount 2 (decimal ASCII) OPTIONAL
+| 43          | Recipient 3 blockchain address (43 chars mixed format) OPTIONAL
+| 16          | Amount 3 (decimal ASCII) OPTIONAL
 | 33          | Sender compressed public key (hexadecimal) |
 
 
@@ -136,9 +138,14 @@ As a security feature the Tree Nano app will only sign a transaction if the Send
 | -31    | RECP_2_PARSING_ERROR         | Other recipient 2 parsing error |
 | -32    | NOT_DECIMAL_AMT_2            | CData length mismatch |
 | -33    | AMT_2_PARSING_ERROR          | Amount 2 not decimal |
-| -34    | SENDER_PUBK_PARSING_ERROR    | Sender public key parsing error |
-| -35    | SENDER_PUBK_ERROR            | Sender compressed public key error |
-| -36    | NOT_TEXT_1                   | Not plain text string |
+| -34    | NOT_HEX_RECP_3_CHAIN         | Recipient 3 blockchain not hexadecimal |
+| -35    | NOT_BASE58_RECP_3            | Recipient 3 account not base58 |
+| -36    | RECP_3_PARSING_ERROR         | Other recipient 3 parsing error |
+| -37    | NOT_DECIMAL_AMT_3            | CData length mismatch |
+| -38    | AMT_3_PARSING_ERROR          | Amount 3 not decimal |
+| -39    | SENDER_PUBK_PARSING_ERROR    | Sender public key parsing error |
+| -40    | SENDER_PUBK_ERROR            | Sender compressed public key error |
+| -41    | NOT_TEXT_1                   | Not plain text string |
 
 
 ## Commands
