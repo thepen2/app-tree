@@ -28,4 +28,5 @@ int ui_display_transaction(void);
 int ui_display_transaction_1(void);
 int ui_display_transaction_2_1(void);
 int ui_display_transaction_2_2(void);
+int ui_display_transaction_2_3(void);
 
