@@ -131,6 +131,9 @@ int handler_sign_tx(buffer_t *cdata, uint8_t chunk, bool more) {
             else if (numRecps == 0x02) {
                 return ui_display_transaction_2_2();
             }
+            else if (numRecps == 0x03) {
+                return ui_display_transaction_2_3();
+            }
         }
     }
 
