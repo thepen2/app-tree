@@ -30,7 +30,7 @@ CHANGES TO THE FOLLOWING FILES:<br>
 /src/ui/display.h<br>
 /src/ui/extra1.c<br> (new functions to generate public keys from BIP32 paths, convert BIP32 to Tree base58 addresses, and match addresses with BIP32)<br>
 /src/ui/extra1.h<br>
-/src/ui/extra2.c<br> (new functions to format dotted decimal amounts and convert char arays to lower case)<br>
+/src/ui/extra2.c<br> (new functions to format dotted decimal amounts and convert char arrays to lower case)<br>
 /src/ui/extra2.h<br>
 /src/ui/menu.c (added UX functions to display two account type base58 addresses)<br>
 /src/ui/menu.h<br>
