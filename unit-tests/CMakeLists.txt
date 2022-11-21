@@ -41,6 +41,7 @@ include_directories(../src)
 add_executable(test_tx_deserialize_1 test_tx_deserialize_1.c)
 add_executable(test_tx_deserialize_2_1 test_tx_deserialize_2_1.c)
 add_executable(test_tx_deserialize_2_2 test_tx_deserialize_2_2.c)
+add_executable(test_tx_deserialize_2_3 test_tx_deserialize_2_3.c)
 add_executable(test_lowercase test_lowercase.c)
 add_executable(test_charset test_charset.c)
 add_executable(test_dotted_decimal test_dotted_decimal.c)
@@ -109,6 +110,18 @@ target_link_libraries(test_tx_deserialize_2_2 PUBLIC
                       read
                       varint
                       transaction_utils)
+target_link_libraries(test_tx_deserialize_2_3 PUBLIC 
+                      cmocka
+                      gcov
+                      transaction_deserialize
+                      transaction_serialize
+                      buffer
+                      bip32
+                      base58
+                      write
+                      read
+                      varint
+                      transaction_utils)
 
 target_link_libraries(test_base58 PUBLIC cmocka gcov base58)
 target_link_libraries(test_bip32 PUBLIC cmocka gcov bip32 read)
@@ -137,6 +150,7 @@ target_link_libraries(test_tx_utils PUBLIC
 add_test(test_tx_deserialize_1 test_tx_deserialize_1)
 add_test(test_tx_deserialize_2_1 test_tx_deserialize_2_1)
 add_test(test_tx_deserialize_2_2 test_tx_deserialize_2_2)
+add_test(test_tx_deserialize_2_3 test_tx_deserialize_2_3)
 add_test(test_lowercase test_lowercase)
 add_test(test_charset test_charset)
 add_test(test_dotted_decimal test_dotted_decimal)
