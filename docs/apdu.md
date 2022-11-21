@@ -62,7 +62,7 @@ The Tree client application also uses a signing request to authorize other opera
 
 ### Tree cryptocurrency transaction signing
 
-Otherwise signing requests are used to sign transaction data.  In this case, byte [10] of the CDATA is the transaction type, a hexadecimal character other than 0x3a.  There can be either 1, 2 or 3 recipients of a Tree cryptocurrency transaction, flagged by byte [86] of the CData.  The recipient 2 blockchain address and amount fields are only present if the number of recipients is 2.  The full format of a cryptocurrency transaction signing request is as follows:
+Otherwise signing requests are used to sign transaction data.  In this case, byte [10] of the CDATA is the transaction type, a hexadecimal character other than 0x3a.  There can be either 1, 2 or 3 recipients of a Tree cryptocurrency transaction, flagged by byte [86] of the CData.  The recipient 2 blockchain address and amount fields are only present if the number of recipients is 2.  The additional recipient 3 blockchain address and amount fields are only present if the number of recipients is 3.  The full format of a cryptocurrency transaction signing request is as follows:
 
 | Length      | Description     |
 |-------------|-----------------|
