@@ -222,7 +222,7 @@ UX_STEP_CB(ux_display_authorize_startup_step,
            {
                &C_icon_validate_14,
                "Authorize",
-               "start up",
+               "startup",
            });
 
 // FLOW to display transaction 1 (authorize startup) information:
