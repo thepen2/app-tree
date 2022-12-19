@@ -1,6 +1,6 @@
 # Tree Nano App<br><br>
 
-<b>Tree cryptocurrency application interface, registered as coin type 644 with https://github.com/satoshilabs/slips/blob/master/slip-0044.md:</b><br><br>
+<b>Tree cryptocurrency application interface, registered as cryptocurrency coin type 644 with https://github.com/satoshilabs/slips/blob/master/slip-0044.md:</b><br><br>
 
 This repository is a fork of https://github.com/LedgerHQ/app-boilerplate, merged with files modified for the Tree Nano app.  Per Ledger Nano documentation requirements for app submission, there is a new /docs/apdu.md file.<br><br>
 
